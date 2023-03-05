@@ -1,4 +1,5 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
+import apiRouter from './routes/api';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -6,9 +7,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-	res.send('Hello from server');
-});
+app.use('/api', apiRouter);
 
 app.listen(port, () => {
 	console.log(`App running on: http://localhost:${port}`);
