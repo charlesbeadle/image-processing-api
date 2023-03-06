@@ -7,7 +7,15 @@ const express_1 = __importDefault(require("express"));
 const processImage_1 = require("../middleware/image-processing/processImage");
 const path_1 = __importDefault(require("path"));
 const imagesPath = path_1.default.resolve(__dirname, '../images');
+// Router instance for API route definitions
 const apiRouter = express_1.default.Router();
+/*
+For any GET request made to /image we are expecting a Name and Size parameter.
+The processImage middleware will determine if an image of the requested name and size exists.
+If the image does not exist, then the image will be made, and the server will respond with the
+new image file. Otherwise, if the image already exists, then the server will respond with a cached image
+matching the request.
+*/
 apiRouter.get('/image', processImage_1.processImage, (req, res) => {
     const name = req.query.name;
     const size = req.query.size;

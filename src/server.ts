@@ -1,14 +1,14 @@
 import express, { Express } from 'express';
 import apiRouter from './routes/api';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
+// Load environment variables from .env
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+// Image processing API route handler
 app.use('/api', apiRouter);
 
-app.listen(port, () => {
-	console.log(`App running on: http://localhost:${port}`);
-});
+app.listen(port);

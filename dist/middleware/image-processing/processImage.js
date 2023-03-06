@@ -13,34 +13,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.processImage = void 0;
-const node_fs_1 = require("node:fs");
+const promises_1 = require("node:fs/promises");
 const path_1 = __importDefault(require("path"));
 const imagesPath = path_1.default.resolve(__dirname, '../../images');
 const sharp = require('sharp');
+/*
+Determine if an image of the specified name and size exists. If the image does exist, then
+move on to the next function, otherwise, make it and save it within the images directory.
+*/
 const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const name = req.query.name;
     const size = parseInt(req.query.size);
     try {
-        (0, node_fs_1.access)(`${imagesPath}/${name}-${size}.jpg`, node_fs_1.constants.F_OK, (err) => __awaiter(void 0, void 0, void 0, function* () {
-            if (err) {
-                console.log('no exist generating');
-                yield sharp(`${imagesPath}/${name}.jpg`)
-                    .resize({
-                    width: size,
-                })
-                    .toFile(`${imagesPath}/${name}-${size}.jpg`)
-                    .then(() => {
-                    console.log('file generation successful');
-                    next();
-                });
-            }
-            else {
-                next();
-            }
-        }));
+        yield (0, promises_1.access)(`${imagesPath}/${name}-${size}.jpg`, promises_1.constants.F_OK);
+        next();
     }
-    catch (err) {
-        next(err);
+    catch (_a) {
+        yield sharp(`${imagesPath}/${name}.jpg`)
+            .resize({
+            width: size,
+        })
+            .toFile(`${imagesPath}/${name}-${size}.jpg`)
+            .then(() => {
+            next();
+        });
     }
 });
 exports.processImage = processImage;
