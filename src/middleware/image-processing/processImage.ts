@@ -15,6 +15,7 @@ export const processImage = async (
 ): Promise<void> => {
 	const name: string = req.query.name as string;
 	const size: number = parseInt(req.query.size as string);
+
 	try {
 		await access(`${imagesPath}/${name}-${size}.jpg`, constants.F_OK);
 		next();
