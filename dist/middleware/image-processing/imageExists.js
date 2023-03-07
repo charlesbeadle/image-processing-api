@@ -24,7 +24,8 @@ const imageExists = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         next();
     }
     catch (_a) {
-        res.status(404).send(`<p style="font-size: 18px; font-family: helvetica;">An image by the name of "${name}" is not on the list of images available for resizing.</p>
+        res.status(404);
+        res.send(`<p style="font-size: 18px; font-family: helvetica;">An image by the name of "${name}" is not on the list of images available for resizing.</p>
         <p style="font-size: 18px; font-family: helvetica;">Images: encenadaport, fjord, icelandwaterfall, palmtunnel, and santamonica are available for resizing.</p>`);
     }
 });

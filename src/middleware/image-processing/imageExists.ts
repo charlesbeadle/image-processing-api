@@ -15,7 +15,8 @@ export const imageExists = async (
 		await access(`${imagesPath}/${name}.jpg`, constants.F_OK);
 		next();
 	} catch {
-		res.status(404).send(
+		res.status(404);
+		res.send(
 			`<p style="font-size: 18px; font-family: helvetica;">An image by the name of "${name}" is not on the list of images available for resizing.</p>
         <p style="font-size: 18px; font-family: helvetica;">Images: encenadaport, fjord, icelandwaterfall, palmtunnel, and santamonica are available for resizing.</p>`
 		);
