@@ -27,6 +27,15 @@ describe('Image processing middleware', () => {
             return;
         }
     }));
+    afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            yield (0, promises_1.access)(`${imagesPath}/santamonica-300.jpg`, promises_1.constants.F_OK);
+            yield (0, promises_1.unlink)(`${imagesPath}/santamonica-300.jpg`);
+        }
+        catch (_b) {
+            return;
+        }
+    }));
     const mockReq = {
         query: {
             name: 'santamonica',
@@ -49,7 +58,7 @@ describe('Image processing middleware', () => {
                 yield (0, promises_1.access)(`${imagesPath}/santamonica-300.jpg`, promises_1.constants.F_OK);
                 return true;
             }
-            catch (_b) {
+            catch (_c) {
                 return false;
             }
         });

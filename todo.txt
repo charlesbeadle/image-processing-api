@@ -1,0 +1,17 @@
+
+readme:
+
+provide an example endpoint in the readme for reviewer
+
+
+refactor:
+
+convert as much to ts as possible
+comment code
+any additional error handlers?
+required: An error message should be provided to the user when an image has failed to process or does not exist.
+required: Functions should include typed parameters and return types and not use the any type.
+
+
+
+

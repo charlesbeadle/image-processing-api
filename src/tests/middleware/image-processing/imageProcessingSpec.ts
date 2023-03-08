@@ -15,6 +15,14 @@ describe('Image processing middleware', () => {
 			return;
 		}
 	});
+	afterAll(async () => {
+		try {
+			await access(`${imagesPath}/santamonica-300.jpg`, constants.F_OK);
+			await unlink(`${imagesPath}/santamonica-300.jpg`);
+		} catch {
+			return;
+		}
+	});
 	const mockReq: Partial<Request> = {
 		query: {
 			name: 'santamonica',
