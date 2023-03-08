@@ -3,6 +3,7 @@ import { imageExists } from '../../../middleware/image-processing/imageExists';
 import { processImage } from '../../../middleware/image-processing/processImage';
 import { access, constants, unlink } from 'node:fs/promises';
 import path from 'path';
+
 const imagesPath = path.resolve(__dirname, '../../../images');
 
 describe('Image processing middleware', () => {
