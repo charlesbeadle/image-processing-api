@@ -13,6 +13,6 @@ app.use('/api', apiRouter);
 
 app.listen(port, () => {
 	console.log(
-		`Try this image processor by opening this URL in your browser: http://localhost:${port}/api/image?name=santamonica&size=300`
+		`Try this image processor by opening this URL in your browser:\nhttp://localhost:${port}/api/image?name=santamonica&size=300`
 	);
 });
