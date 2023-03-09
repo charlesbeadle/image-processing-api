@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.processImage = void 0;
 const promises_1 = require("node:fs/promises");
 const path_1 = __importDefault(require("path"));
-const imagesPath = path_1.default.resolve(__dirname, '../../images');
+// Include Sharp
 const sharp = require('sharp');
+// Assign the images path to a variable
+const imagesPath = path_1.default.resolve(__dirname, '../../images');
 /*
 Determine if an image of the specified name and size exists. If the image does exist, then
 move on to the next function, otherwise, make it and save it within the images directory.
@@ -24,6 +26,7 @@ move on to the next function, otherwise, make it and save it within the images d
 const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const name = req.query.name;
     const size = parseInt(req.query.size);
+    // If the name or size parameters are missing, then respond with an error message
     if (!name || !size) {
         res.status(400);
         res.json({
@@ -31,17 +34,20 @@ const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     else if (size < 10) {
+        // If the size requested is less than 10, then respond with an error message
         res.status(400);
         res.json({
             message: 'Invalid request. Please provide a size of 10 or above.',
         });
     }
     else {
+        // Check if there's a cached image that matches the request
         try {
             yield (0, promises_1.access)(`${imagesPath}/${name}-${size}.jpg`, promises_1.constants.F_OK);
             next();
         }
         catch (_a) {
+            // Attempt to process the image
             try {
                 yield sharp(`${imagesPath}/${name}.jpg`)
                     .resize({

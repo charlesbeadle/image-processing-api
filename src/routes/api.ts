@@ -3,11 +3,14 @@ import { processImage } from '../middleware/image-processing/processImage';
 import { imageExists } from '../middleware/image-processing/imageExists';
 import { Middleware } from '../interfaces/middleware';
 import path from 'path';
+
+// Assign the images path to a variable
 const imagesPath: string = path.resolve(__dirname, '../images');
 
-// Router instance for API route definitions
+// Create a router instance for API route definitions
 const apiRouter: Router = express.Router();
 
+// Consolidate middleware into an array
 const imageProcess: Middleware[] = [imageExists, processImage];
 
 /*

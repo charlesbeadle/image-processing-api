@@ -31,10 +31,13 @@ const api_1 = __importDefault(require("./routes/api"));
 const dotenv = __importStar(require("dotenv"));
 // Load environment variables from .env
 dotenv.config();
+// Create an express app instance
 const app = (0, express_1.default)();
+// Assign a port value
 const port = process.env.PORT || 3000;
-// Image processing API route handler
+// For any route prefixed with /api use the apiRouter
 app.use('/api', api_1.default);
+// Start the server
 app.listen(port, () => {
     console.log(`Try this image processor by opening this URL in your browser:\nhttp://localhost:${port}/api/image?name=santamonica&size=300`);
 });

@@ -7,9 +7,11 @@ const express_1 = __importDefault(require("express"));
 const processImage_1 = require("../middleware/image-processing/processImage");
 const imageExists_1 = require("../middleware/image-processing/imageExists");
 const path_1 = __importDefault(require("path"));
+// Assign the images path to a variable
 const imagesPath = path_1.default.resolve(__dirname, '../images');
-// Router instance for API route definitions
+// Create a router instance for API route definitions
 const apiRouter = express_1.default.Router();
+// Consolidate middleware into an array
 const imageProcess = [imageExists_1.imageExists, processImage_1.processImage];
 /*
 For any GET request made to /image we are expecting a Name and Size parameter.

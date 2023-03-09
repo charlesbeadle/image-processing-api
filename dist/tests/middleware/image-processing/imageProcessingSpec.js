@@ -16,8 +16,11 @@ const imageExists_1 = require("../../../middleware/image-processing/imageExists"
 const processImage_1 = require("../../../middleware/image-processing/processImage");
 const promises_1 = require("node:fs/promises");
 const path_1 = __importDefault(require("path"));
+// Assign the images path to a variable
 const imagesPath = path_1.default.resolve(__dirname, '../../../images');
+// Test the image processing middleware
 describe('Image processing middleware', () => {
+    // Remove the test image if it already exists
     beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield (0, promises_1.access)(`${imagesPath}/santamonica-300.jpg`, promises_1.constants.F_OK);
@@ -27,6 +30,7 @@ describe('Image processing middleware', () => {
             return;
         }
     }));
+    // Remove the test image after all tests have run
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield (0, promises_1.access)(`${imagesPath}/santamonica-300.jpg`, promises_1.constants.F_OK);
@@ -36,6 +40,7 @@ describe('Image processing middleware', () => {
             return;
         }
     }));
+    // Create mock request and response objects
     const mockReq = {
         query: {
             name: 'santamonica',
@@ -46,6 +51,7 @@ describe('Image processing middleware', () => {
         status: jasmine.createSpy('status'),
         send: jasmine.createSpy('send'),
     };
+    // Create a mock next function
     const mockNextFunction = jasmine.createSpy('next');
     it('calls the next function if the requested file name exists', () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, imageExists_1.imageExists)(mockReq, mockRes, mockNextFunction);
