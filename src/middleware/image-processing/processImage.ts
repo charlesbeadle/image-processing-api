@@ -13,31 +13,38 @@ export const processImage = async (
 	res: Response,
 	next: NextFunction
 ): Promise<void> => {
-	if (!req.query.name || !req.query.size) {
+	const name: string = req.query.name as string;
+	const size: number = parseInt(req.query.size as string);
+
+	if (!name || !size) {
 		res.status(400);
 		res.json({
 			message:
 				'Invalid request. The "name" and "size" parameters are required.',
 		});
+	} else if (size < 10) {
+		res.status(400);
+		res.json({
+			message: 'Invalid request. Please provide a size of 10 or above.',
+		});
 	} else {
-		const name: string = req.query.name as string;
-		const size: number = parseInt(req.query.size as string);
-
 		try {
 			await access(`${imagesPath}/${name}-${size}.jpg`, constants.F_OK);
 			next();
 		} catch {
-			await sharp(`${imagesPath}/${name}.jpg`)
-				.resize({
-					width: size,
-				})
-				.toFile(`${imagesPath}/${name}-${size}.jpg`)
-				.then(() => {
-					next();
-				})
-				.catch((err: string) =>
-					res.json({ message: err as unknown as string })
-				);
+			try {
+				await sharp(`${imagesPath}/${name}.jpg`)
+					.resize({
+						width: size,
+					})
+					.toFile(`${imagesPath}/${name}-${size}.jpg`)
+					.then(() => {
+						next();
+					});
+			} catch {
+				res.status(500);
+				res.json({ message: 'There was an error while processing the image.' });
+			}
 		}
 	}
 };

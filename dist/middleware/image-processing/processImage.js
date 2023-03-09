@@ -22,29 +22,40 @@ Determine if an image of the specified name and size exists. If the image does e
 move on to the next function, otherwise, make it and save it within the images directory.
 */
 const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.query.name || !req.query.size) {
+    const name = req.query.name;
+    const size = parseInt(req.query.size);
+    if (!name || !size) {
         res.status(400);
         res.json({
             message: 'Invalid request. The "name" and "size" parameters are required.',
         });
     }
+    else if (size < 10) {
+        res.status(400);
+        res.json({
+            message: 'Invalid request. Please provide a size of 10 or above.',
+        });
+    }
     else {
-        const name = req.query.name;
-        const size = parseInt(req.query.size);
         try {
             yield (0, promises_1.access)(`${imagesPath}/${name}-${size}.jpg`, promises_1.constants.F_OK);
             next();
         }
         catch (_a) {
-            yield sharp(`${imagesPath}/${name}.jpg`)
-                .resize({
-                width: size,
-            })
-                .toFile(`${imagesPath}/${name}-${size}.jpg`)
-                .then(() => {
-                next();
-            })
-                .catch((err) => res.json({ message: err }));
+            try {
+                yield sharp(`${imagesPath}/${name}.jpg`)
+                    .resize({
+                    width: size,
+                })
+                    .toFile(`${imagesPath}/${name}-${size}.jpg`)
+                    .then(() => {
+                    next();
+                });
+            }
+            catch (_b) {
+                res.status(500);
+                res.json({ message: 'There was an error while processing the image.' });
+            }
         }
     }
 });
