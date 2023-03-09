@@ -43,7 +43,8 @@ const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
                 .toFile(`${imagesPath}/${name}-${size}.jpg`)
                 .then(() => {
                 next();
-            });
+            })
+                .catch((err) => res.json({ message: err }));
         }
     }
 });

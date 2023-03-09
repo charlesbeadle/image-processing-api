@@ -34,7 +34,10 @@ export const processImage = async (
 				.toFile(`${imagesPath}/${name}-${size}.jpg`)
 				.then(() => {
 					next();
-				});
+				})
+				.catch((err: string) =>
+					res.json({ message: err as unknown as string })
+				);
 		}
 	}
 };
