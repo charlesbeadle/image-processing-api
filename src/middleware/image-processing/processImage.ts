@@ -13,20 +13,28 @@ export const processImage = async (
 	res: Response,
 	next: NextFunction
 ): Promise<void> => {
-	const name: string = req.query.name as string;
-	const size: number = parseInt(req.query.size as string);
+	if (!req.query.name || !req.query.size) {
+		res.status(400);
+		res.json({
+			message:
+				'Invalid request. The "name" and "size" parameters are required.',
+		});
+	} else {
+		const name: string = req.query.name as string;
+		const size: number = parseInt(req.query.size as string);
 
-	try {
-		await access(`${imagesPath}/${name}-${size}.jpg`, constants.F_OK);
-		next();
-	} catch {
-		await sharp(`${imagesPath}/${name}.jpg`)
-			.resize({
-				width: size,
-			})
-			.toFile(`${imagesPath}/${name}-${size}.jpg`)
-			.then(() => {
-				next();
-			});
+		try {
+			await access(`${imagesPath}/${name}-${size}.jpg`, constants.F_OK);
+			next();
+		} catch {
+			await sharp(`${imagesPath}/${name}.jpg`)
+				.resize({
+					width: size,
+				})
+				.toFile(`${imagesPath}/${name}-${size}.jpg`)
+				.then(() => {
+					next();
+				});
+		}
 	}
 };

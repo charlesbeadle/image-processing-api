@@ -18,15 +18,22 @@ const path_1 = __importDefault(require("path"));
 const imagesPath = path_1.default.resolve(__dirname, '../../images');
 // Confirm that we have an image by the name of the one requested
 const imageExists = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const name = req.query.name;
-    try {
-        yield (0, promises_1.access)(`${imagesPath}/${name}.jpg`, promises_1.constants.F_OK);
-        next();
+    if (!req.query.name) {
+        res.status(400);
+        res.json({ message: 'Invalid request. The "name" parameter is required.' });
     }
-    catch (_a) {
-        res.status(404);
-        res.send(`<p style="font-size: 18px; font-family: helvetica;">An image by the name of "${name}" is not on the list of images available for resizing.</p>
-        <p style="font-size: 18px; font-family: helvetica;">Images: encenadaport, fjord, icelandwaterfall, palmtunnel, and santamonica are available for resizing.</p>`);
+    else {
+        const name = req.query.name;
+        try {
+            yield (0, promises_1.access)(`${imagesPath}/${name}.jpg`, promises_1.constants.F_OK);
+            next();
+        }
+        catch (_a) {
+            res.status(404);
+            res.json({
+                message: `An image by the name of "${name}" is not on the list of images available for resizing. Images: encenadaport, fjord, icelandwaterfall, palmtunnel, and santamonica are available for resizing.`,
+            });
+        }
     }
 });
 exports.imageExists = imageExists;

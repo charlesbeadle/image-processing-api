@@ -22,21 +22,29 @@ Determine if an image of the specified name and size exists. If the image does e
 move on to the next function, otherwise, make it and save it within the images directory.
 */
 const processImage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const name = req.query.name;
-    const size = parseInt(req.query.size);
-    try {
-        yield (0, promises_1.access)(`${imagesPath}/${name}-${size}.jpg`, promises_1.constants.F_OK);
-        next();
-    }
-    catch (_a) {
-        yield sharp(`${imagesPath}/${name}.jpg`)
-            .resize({
-            width: size,
-        })
-            .toFile(`${imagesPath}/${name}-${size}.jpg`)
-            .then(() => {
-            next();
+    if (!req.query.name || !req.query.size) {
+        res.status(400);
+        res.json({
+            message: 'Invalid request. The "name" and "size" parameters are required.',
         });
+    }
+    else {
+        const name = req.query.name;
+        const size = parseInt(req.query.size);
+        try {
+            yield (0, promises_1.access)(`${imagesPath}/${name}-${size}.jpg`, promises_1.constants.F_OK);
+            next();
+        }
+        catch (_a) {
+            yield sharp(`${imagesPath}/${name}.jpg`)
+                .resize({
+                width: size,
+            })
+                .toFile(`${imagesPath}/${name}-${size}.jpg`)
+                .then(() => {
+                next();
+            });
+        }
     }
 });
 exports.processImage = processImage;
