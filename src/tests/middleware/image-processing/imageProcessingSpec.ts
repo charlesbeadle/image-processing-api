@@ -4,10 +4,10 @@ import { processImage } from '../../../middleware/image-processing/processImage'
 import { access, constants, unlink } from 'node:fs/promises';
 import path from 'path';
 
-const imagesPath = path.resolve(__dirname, '../../../images');
+const imagesPath: string = path.resolve(__dirname, '../../../images');
 
-describe('Image processing middleware', () => {
-	beforeAll(async () => {
+describe('Image processing middleware', (): void => {
+	beforeAll(async (): Promise<void> => {
 		try {
 			await access(`${imagesPath}/santamonica-300.jpg`, constants.F_OK);
 			await unlink(`${imagesPath}/santamonica-300.jpg`);
@@ -15,7 +15,7 @@ describe('Image processing middleware', () => {
 			return;
 		}
 	});
-	afterAll(async () => {
+	afterAll(async (): Promise<void> => {
 		try {
 			await access(`${imagesPath}/santamonica-300.jpg`, constants.F_OK);
 			await unlink(`${imagesPath}/santamonica-300.jpg`);
@@ -35,7 +35,7 @@ describe('Image processing middleware', () => {
 	};
 	const mockNextFunction: Partial<NextFunction> = jasmine.createSpy('next');
 
-	it('calls the next function if the requested file name exists', async () => {
+	it('calls the next function if the requested file name exists', async (): Promise<void> => {
 		await imageExists(
 			mockReq as Request,
 			mockRes as Response,
@@ -44,13 +44,13 @@ describe('Image processing middleware', () => {
 		expect(mockNextFunction).toHaveBeenCalled();
 	});
 
-	it('resizes an image if one is not cached', async () => {
+	it('resizes an image if one is not cached', async (): Promise<void> => {
 		await processImage(
 			mockReq as Request,
 			mockRes as Response,
 			mockNextFunction as NextFunction
 		);
-		const resizedExists = async () => {
+		const resizedExists = async (): Promise<boolean> => {
 			try {
 				await access(`${imagesPath}/santamonica-300.jpg`, constants.F_OK);
 				return true;

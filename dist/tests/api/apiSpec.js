@@ -25,7 +25,7 @@ app.get('/api/image', imageExists_1.imageExists, processImage_1.processImage, (r
     const size = req.query.size;
     res.sendFile(`${imagesPath}/${name}-${size}.jpg`);
 });
-describe('GET /api/image', () => {
+describe('GET /api/image?name=santamonica&size=300', () => {
     it('responds with a status code of 200', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield request.get('/api/image?name=santamonica&size=300');
         expect(response.status).toEqual(200);

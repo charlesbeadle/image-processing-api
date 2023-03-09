@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { access, constants } from 'node:fs/promises';
 import path from 'path';
-const imagesPath = path.resolve(__dirname, '../../images');
+const imagesPath: string = path.resolve(__dirname, '../../images');
 const sharp = require('sharp');
 
 /*

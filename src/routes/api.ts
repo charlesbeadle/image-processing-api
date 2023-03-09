@@ -1,12 +1,12 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Router } from 'express';
 import { processImage } from '../middleware/image-processing/processImage';
 import { imageExists } from '../middleware/image-processing/imageExists';
 import { Middleware } from '../interfaces/middleware';
 import path from 'path';
-const imagesPath = path.resolve(__dirname, '../images');
+const imagesPath: string = path.resolve(__dirname, '../images');
 
 // Router instance for API route definitions
-const apiRouter = express.Router();
+const apiRouter: Router = express.Router();
 
 const imageProcess: Middleware[] = [imageExists, processImage];
 
@@ -17,7 +17,7 @@ If so, then the processImage middleware will determine if an image of the reques
 If an image matching the request does not exist, then the image will be made, and the server will respond with the
 new image file. Otherwise, the server will respond with a cached image matching the request.
 */
-apiRouter.get('/image', imageProcess, (req: Request, res: Response) => {
+apiRouter.get('/image', imageProcess, (req: Request, res: Response): void => {
 	const name: string = req.query.name as string;
 	const size: string = req.query.size as string;
 	res.sendFile(`${imagesPath}/${name}-${size}.jpg`);

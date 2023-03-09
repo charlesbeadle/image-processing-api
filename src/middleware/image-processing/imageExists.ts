@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { access, constants } from 'node:fs/promises';
 import path from 'path';
-const imagesPath = path.resolve(__dirname, '../../images');
+const imagesPath: string = path.resolve(__dirname, '../../images');
 
 // Confirm that we have an image by the name of the one requested
 export const imageExists = async (
@@ -9,12 +9,12 @@ export const imageExists = async (
 	res: Response,
 	next: NextFunction
 ): Promise<void> => {
-	if (!req.query.name) {
+	const name: string = req.query.name as string;
+
+	if (!name) {
 		res.status(400);
 		res.json({ message: 'Invalid request. The "name" parameter is required.' });
 	} else {
-		const name: string = req.query.name as string;
-
 		try {
 			await access(`${imagesPath}/${name}.jpg`, constants.F_OK);
 			next();

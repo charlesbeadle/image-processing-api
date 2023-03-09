@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 // Image processing API route handler
 app.use('/api', apiRouter);
 
-app.listen(port, () => {
+app.listen(port, (): void => {
 	console.log(
 		`Try this image processor by opening this URL in your browser:\nhttp://localhost:${port}/api/image?name=santamonica&size=300`
 	);
